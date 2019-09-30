@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { NavLink } from 'react-router-dom';
 import Input from '../../../components/UI/Input/Input';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as actions from '../../../store/actions/index';
+import classes from './Login.module.css'; 
+
 
 class login extends Component {
 
@@ -21,7 +23,8 @@ class login extends Component {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                icon : 'user'
             },
             password: {
                 elemntType: 'input',
@@ -36,7 +39,8 @@ class login extends Component {
                     maxLength: 12
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                icon : 'key'
             },
         },
         formIsvalid: false
@@ -78,8 +82,6 @@ class login extends Component {
             isValid = pattern.test(value) && isValid;
         }
 
-        console.log(isValid);
-
         return isValid;
     }
 
@@ -112,7 +114,6 @@ class login extends Component {
 
     orderHandler = (event) => {
         event.preventDefault();
-    
 
         const formData = {};
 
@@ -120,9 +121,8 @@ class login extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
-        
+
         const userData = formData;
-            
 
         console.log(userData);
 
@@ -148,7 +148,7 @@ class login extends Component {
 
                     <div key={formElement.id} className="input-group form-group">
                         <div className="input-group-prepend">
-                            <span className="input-group-text"><i className="fas fa-user"></i></span>
+                            <span className="input-group-text"><i className={"fas fa-" + formElement.config.icon}></i></span>
                         </div>
 
                         <Input
@@ -165,8 +165,8 @@ class login extends Component {
 
                     </div>
                 ))}
-                
-                <Button  btnType="btn float-right login_btn" clicked={this.orderHandler} disabled={!this.state.formIsvalid}> Login </Button>
+
+                <Button btnType="btn float-right login_btn" clicked={this.orderHandler} disabled={!this.state.formIsvalid}> Login </Button>
             </form>
         );
 
@@ -179,17 +179,27 @@ class login extends Component {
                 <div className="d-flex justify-content-center h-100">
                     <div className="card">
                         <div className="card-header">
-                            <h3>Sign In</h3>
+                            <div >
+                                <ul className="list-inline text-center align-items-center">
+                                    <li className={"list-inline-item"}>
+                                        <NavLink className={classes.NavitionItem} to={"/login"}> <h3>Sıgn In ~ </h3> </NavLink> 
+                                    </li>
+                                    <li className="list-inline-item">
+                                        <NavLink to={"/signUp"}> <h3>Sıgn Up</h3> </NavLink>
+                                        </li>
+                                </ul>
 
+
+                            </div>
                         </div>
                         <div className="card-body">
-                            
+
                             {form}
 
                         </div>
                         <div className="card-footer">
                             <div className="d-flex justify-content-center links">
-                                Don't have an account?<a href="/signUp">Sign Up</a>
+                                Don't have an account?<NavLink to={"/signUp"}> Sign Up </NavLink>
                             </div>
                         </div>
                     </div>

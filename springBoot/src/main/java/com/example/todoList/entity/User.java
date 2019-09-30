@@ -5,35 +5,27 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="User")
-public class User {
+@Table(name = "User", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "USERNAME"
+        }),
+        @UniqueConstraint(columnNames = {
+                "EMAIL"
+        })}
+)
+public class User extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(name="USERNAME")
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(name="EMAIL")
+    @Column(name = "EMAIL")
     private String email;
 
-    @Column(name="PASSWORD")
+    @Column(name = "PASSWORD")
     private String password;
 
     public User() {
-    }
-
-    public User(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {

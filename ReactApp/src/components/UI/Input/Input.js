@@ -31,6 +31,14 @@ const input = (props) => {
                 onChange={props.changed}
             />;
             break;
+        case ('date'):
+            inputElement = <input
+                className={inputClasses.join(' ')}
+                {...props.elementConfig}
+                value={props.value}
+                onChange={props.changed}
+            />;
+            break;
         default:
             inputElement = <input
                 className={inputClasses}

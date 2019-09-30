@@ -5,7 +5,8 @@ const initialState = {
     isAuth: false
 }
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action, useAlert) => {
+    
     switch (action.type) {
         case actionTypes.LOGIN_USER_SUCCESS:
             return {
@@ -14,29 +15,25 @@ const reducer = (state = initialState, action) => {
                 isAuth: true
             };
         case actionTypes.LOGIN_USER_FAIL:
+                alert('Girdiğiniz Bilgiler Hatalı!!');
+                console.log("LOGIN_USER_FAIL");
             return {
                 ...state,
                 user: null,
                 isAuth: false
             };
         case actionTypes.SIGNUP_USER_SUCCESS:
-            const newUser = {
-                ...action.userData,
-                id: action.userId
-            }
             return {
                 ...state,
-                loading: false,
-                purchased: true,
-                users: state.users.concat(newUser)
+                user: action.userData,
+                isAuth : true
             };
         case actionTypes.SIGNUP_USER_FAIL:
+                alert('Kullanıcı Mevcut');
             return {
                 ...state,
-                user: true
             }
         case actionTypes.USER_LOGOUT:
-            console.log("USER_LOGOUT");
             return {
                 ...state,
                 user: null,
@@ -44,9 +41,7 @@ const reducer = (state = initialState, action) => {
             }
         default:
             return state;
-           
     }
-    
 }
 
 export default reducer;

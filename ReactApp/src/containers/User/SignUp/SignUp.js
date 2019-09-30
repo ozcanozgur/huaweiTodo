@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { NavLink } from 'react-router-dom';
 import Input from '../../../components/UI/Input/Input';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as actions from '../../../store/actions/index';
+
 
 class signUp extends Component {
     state = {
@@ -13,14 +14,15 @@ class signUp extends Component {
                 elemntType: 'input',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Your Name'
+                    placeholder: 'Username'
                 },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                icon : 'user'
             },
             email: {
                 elemntType: 'input',
@@ -34,7 +36,8 @@ class signUp extends Component {
                     isEmail: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                icon : 'envelope'
             },
             password: {
                 elemntType: 'input',
@@ -48,7 +51,8 @@ class signUp extends Component {
                     minLength: 5,
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                icon : 'key'
             },
         },
         formIsvalid: false
@@ -90,8 +94,6 @@ class signUp extends Component {
             isValid = pattern.test(value) && isValid;
         }
 
-        console.log(isValid);
-
         return isValid;
     }
 
@@ -124,7 +126,7 @@ class signUp extends Component {
 
     orderHandler = (event) => {
         event.preventDefault();
-    
+
 
         const formData = {};
 
@@ -132,7 +134,7 @@ class signUp extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
-        
+
         const userData = formData;
 
         this.props.onSignUpUser(userData);
@@ -157,7 +159,7 @@ class signUp extends Component {
 
                     <div key={formElement.id} className="input-group form-group">
                         <div className="input-group-prepend">
-                            <span className="input-group-text"><i className="fas fa-user"></i></span>
+                            <span className="input-group-text"><i className={"fas fa-" + formElement.config.icon}></i></span>
                         </div>
 
                         <Input
@@ -174,8 +176,8 @@ class signUp extends Component {
 
                     </div>
                 ))}
-                
-                <Button  btnType="btn float-right login_btn" clicked={this.orderHandler} disabled={!this.state.formIsvalid}> Sign Up </Button>
+
+                <Button btnType="btn float-right login_btn" clicked={this.orderHandler} disabled={!this.state.formIsvalid}> Sign Up </Button>
             </form>
         );
 
@@ -187,18 +189,25 @@ class signUp extends Component {
             <div className="Login">
                 <div className="d-flex justify-content-center h-100">
                     <div className="card">
-                        <div className="card-header">
-                            <h3>Sign Up</h3>
 
+                        <div className="card-header">
+                            <ul className="list-inline text-center align-items-center">
+                                <li className={"list-inline-item"}>
+                                    <NavLink  to={"/signUp"}> <h3>Sıgn Up ~ </h3> </NavLink>
+                                </li>
+                                <li className="list-inline-item">
+                                    <NavLink to={"/login"}> <h3>Sıgn In</h3> </NavLink>
+                                </li>
+                            </ul>
                         </div>
                         <div className="card-body">
-                            
+
                             {form}
 
                         </div>
                         <div className="card-footer">
                             <div className="d-flex justify-content-center links">
-                                Don't have an account?<a href="/signUp">Sign Up</a>
+                                Do You Have Account? <NavLink to={"/login"}> Login </NavLink>
                             </div>
                         </div>
                     </div>
@@ -218,4 +227,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default  connect(null, mapDispatchToProps)(signUp);
+export default connect(null, mapDispatchToProps)(signUp);

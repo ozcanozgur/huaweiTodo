@@ -3,32 +3,33 @@ import axios from '../../axios-orders';
 
 export const userLoginSuccess = (userData) => {
     return {
-        type : actionTypes.LOGIN_USER_SUCCESS,
-        userData : userData
+        type: actionTypes.LOGIN_USER_SUCCESS,
+        userData: userData
     }
 }
 
-export const userLoginFail = (id) => {
+export const userLoginFail = (error) => {
     return {
-        type : actionTypes.LOGIN_USER_FAIL
+        type: actionTypes.LOGIN_USER_FAIL
     }
 }
 
-export const userSignUpSuccess = (id) => {
+export const userSignUpSuccess = (userData) => {
     return {
-        type : actionTypes.SIGNUP_USER_SUCCESS
+        type: actionTypes.SIGNUP_USER_SUCCESS,
+        userData: userData
     }
 }
 
-export const userSignUpFail = (id) => {
+export const userSignUpFail = (error) => {
     return {
-        type : actionTypes.SIGNUP_USER_FAIL
+        type: actionTypes.SIGNUP_USER_FAIL
     }
 }
 
 export const userLogout = () => {
     return {
-        type : actionTypes.USER_LOGOUT
+        type: actionTypes.USER_LOGOUT
     }
 }
 
@@ -38,42 +39,31 @@ export const loginUser = (userData) => {
             method: 'get',
             url: 'http://localhost:8080/api/users/' + userData.username,
         }).then(obj => {
-           
-            console.log(obj.data);
-            if(obj.data){
+            console.log(obj.data.password);
+            if (obj.data.password === userData.password) {
                 dispatch(userLoginSuccess(obj.data));
-                console.log("giriş başarılı");
             }
-        })
-        // axios.post('/api/users', userData)
-        //     .then(
-        //         response => {
-        //             //console.log(response.data);
-        //             //dispatch(userSignUpSuccess(response.data.name, userData));
-        //             // this.props.history.push('/');
-        //             console.log("okey");
-        //         }
-        //     )
-        //     .catch(error => {
-        //         //console.log(error);
-        //         //dispatch(purchaseBurgerFail(error));
-        //     });
+            else
+                dispatch(userLoginFail(null));
+        }).catch(error => {
+            dispatch(userLoginFail(error));
+        });
     }
 }
 
 export const signUpUser = (userData) => {
+
     return dispatch => {
         axios({
             method: 'post',
             url: 'http://localhost:8080/api/users',
             params: userData
         }).then(obj => {
-            console.log("signup");
-            console.log(obj.data);
-            console.log(obj);
+            if (obj.status === 200) {
+                dispatch(loginUser(userData));
+            }
         }).catch(error => {
-            console.log(error);
-            //dispatch(purchaseBurgerFail(error));
+            dispatch(userSignUpFail(error));
         });
     }
 }

@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService{
     }
 
     public User getUser(Long userId) {
-        Optional<User> optEmp = userRepository.findById(userId);
-        return optEmp.get();
+        Optional<User> optUser = userRepository.findById(userId);
+        return optUser.get();
     }
 
     public User getUserByUsername(String username) {

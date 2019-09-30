@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+At first, this project runs with back-end project. (link: https://github.com/ozcanozgur/huaweiTodo/tree/master/springBoot). You should run back-end before this ui.
+
 ### `npm start`
 
 Runs the app in the development mode.<br>

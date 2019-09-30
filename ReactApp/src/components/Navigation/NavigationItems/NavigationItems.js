@@ -10,19 +10,40 @@ class navigationItems extends Component {
 
     render() {
 
-       
+
 
         return (
             <ul className={classes.NavigationItems}>
-                <NavigationItem link="/" exact>Todo List</NavigationItem>
 
-                { !this.props.isAuth ?
+
+                {!this.props.isAuth ?
                     [
-                        <NavigationItem key={0} link="/login">Login</NavigationItem>,
-                        <NavigationItem key={1} link="/signUp">Sign Up</NavigationItem>
+                        <NavigationItem
+                            key={0}
+                            link="/login">
+                            Login
+                            </NavigationItem>,
+                        <NavigationItem
+                            key={1}
+                            link="/signUp">
+                            Sign Up
+                            </NavigationItem>
                     ]
-                    :   <NavigationItem style={{marginLeft : "auto"}} key={2} clicked={this.props.onLogout} link="/signUp">Logout</NavigationItem>}
-            
+                    : [
+                        <NavigationItem
+                            key={2}
+                            link="/"
+                            exact>
+                            Todo List
+                        </NavigationItem>,
+                        <NavigationItem
+                            key={3}
+                            clicked={this.props.onLogout}
+                            link="/login">
+                            Logout ({this.props.user.username})
+                     </NavigationItem>
+                    ]}
+
             </ul>
         )
     }
@@ -32,6 +53,7 @@ class navigationItems extends Component {
 
 const mapStatetoProps = state => {
     return {
+        user : state.user.user,
         isAuth: state.user.isAuth
     }
 }
@@ -42,4 +64,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStatetoProps,mapDispatchToProps)(navigationItems);
+export default connect(mapStatetoProps, mapDispatchToProps)(navigationItems);
